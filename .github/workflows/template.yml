@@ -1,6 +1,8 @@
 name: GameCI Template 🎮
 
-on: push
+on:
+  check_run:
+    types: [rerequested, completed]
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
