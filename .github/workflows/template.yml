@@ -2,7 +2,7 @@ name: GameCI Template 🎮
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, edited, reopened]
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
