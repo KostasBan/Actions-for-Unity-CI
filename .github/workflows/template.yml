@@ -4,6 +4,7 @@ on:
   pull_request:
     types: [opened, edited, reopened]
 
+
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
