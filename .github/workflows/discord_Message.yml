@@ -12,4 +12,4 @@ jobs:
       with:
         webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-        args: The workflow runs at \n https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+        args: The workflow runs at':' '\n' https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
