@@ -12,5 +12,4 @@ jobs:
       with:
         webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-        args: The workflow runs at https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}. ${{ github.github.action_path }}
-        #https://github.com/KostasBan/Actions-for-Unity-CI/actions/runs/2140958021
+        args: The workflow runs at \n https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
