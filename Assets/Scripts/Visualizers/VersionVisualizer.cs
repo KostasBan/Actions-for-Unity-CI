@@ -12,7 +12,7 @@ namespace Assets.Scripts.Visualizers
         // Start is called before the first frame update
         void Start()
         {
-            ConfigSettings settings = new ConfigSettings("1.0.0");
+            ConfigSettings settings = new ConfigSettings(Application.version);            
             TMP_Text text = GetComponent<TMP_Text>();
             text.text = settings.Version;
         }
