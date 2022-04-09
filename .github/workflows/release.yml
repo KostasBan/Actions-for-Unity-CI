@@ -95,16 +95,17 @@ jobs:
             Library-build-
             Library-
 
-#      - uses: game-ci/unity-builder@v2
-#        with:
-#            versioning: Tag
-#            allowDirtyBuild: true
-
-      - uses: webbertakken/unity-builder@v2
+      - uses: game-ci/unity-builder@v2
         with:
-          targetPlatform: WebGL
-          versioning: Tag
-          allowDirtyBuild: true
+            targetPlatform: WebGL
+            versioning: Tag
+            allowDirtyBuild: true
+
+#      - uses: webbertakken/unity-builder@v2
+#        with:
+#          targetPlatform: WebGL
+#          versioning: Tag
+#          allowDirtyBuild: true
 
       - uses: actions/upload-artifact@v2
         with:
