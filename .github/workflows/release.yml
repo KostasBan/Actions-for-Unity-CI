@@ -98,6 +98,7 @@ jobs:
       - uses: game-ci/unity-builder@v2
         with:
             versioning: Tag
+            allowDirtyBuild: true
 
       - uses: webbertakken/unity-builder@v2
         with:
