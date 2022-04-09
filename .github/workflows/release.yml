@@ -9,6 +9,21 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
+  sendInitialMessage: 
+    name: Discord Initial Message
+    runs-on: ubuntu-latest
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          with:
+            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            args: | 
+                Build workflow has been queued 
+                Target platfrom WebGL
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+
   checkLicense:
     name: Check for the Unity license ☑️
     runs-on: ubuntu-latest
@@ -60,6 +75,22 @@ jobs:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
 
+  TestMessage: 
+    needs: testRunner
+    name: Discord Message
+    runs-on: ubuntu-latest
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          with:
+            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            args: | 
+                Build workflow passed all tests
+                Target platfrom WebGL
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+  
   buildWebGL:
     needs: testRunner
     name: Build for WebGL 🖥️
@@ -112,6 +143,22 @@ jobs:
           name: build-WebGL
           path: build/WebGL
 
+  BuildMessage: 
+    needs: buildWebGL
+    name: Discord Message
+    runs-on: ubuntu-latest
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          with:
+            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            args: | 
+                Build workflow Completed
+                Target platfrom WebGL
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+
   deployPages:
     needs: buildWebGL
     name: Deploy to Github Pages 🚀
@@ -130,3 +177,17 @@ jobs:
         with:
           branch: gh-pages
           folder: build/WebGL
+
+  deployMessage: 
+    needs: deployPages
+    name: Discord Message
+    runs-on: ubuntu-latest
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          with:
+            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            args: | 
+                Build successfully deployed at
+                https://kostasban.github.io/Actions-for-Unity-CI/
