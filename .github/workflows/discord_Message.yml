@@ -12,4 +12,5 @@ jobs:
       with:
         webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+        avatar_url: "https://cdn-icons-png.flaticon.com/512/25/25231.png"
         args: The ${{ github.event_name }} event triggered first step.
