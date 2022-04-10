@@ -17,9 +17,10 @@ jobs:
           with:
             webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
             webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-            color: "#00FF00"
+            color: "#FFFF00"
             args: | 
-                Pull request was ${{ github.event_name }} for ${{ github.ref_name }}
+                Pull request was ${{ github.event.action }}
+                https://github.com/${{ github.repository }}/pull/${{ github.ref_name }}
                 Target platfrom WebGL
                 The workflow runs at
                 https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}
