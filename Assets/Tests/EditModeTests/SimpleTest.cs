@@ -14,7 +14,7 @@ public class SimpleTest
     {
         string vesrion = "1.0.0";
         _settings = new ConfigSettings(vesrion);
-        Assert.AreNotEqual(vesrion, _settings.Version);
+        Assert.AreEqual(vesrion, _settings.Version);
     }
 
 }
