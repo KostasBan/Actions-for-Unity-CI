@@ -170,7 +170,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: build-StandaloneWindows64
-          path: build/PR/StandaloneWindows64
+          path: build/StandaloneWindows64
 
   buildWebGL:
     needs: testRunner
@@ -214,7 +214,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: build-WebGL
-          path: build/PR/WebGL
+          path: build/WebGL
 
   BuildMessage: 
     needs: buildWebGL
