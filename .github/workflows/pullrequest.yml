@@ -19,63 +19,106 @@ jobs:
             webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
             color: "#FFFF00"
             args: | 
-                Pull request was ${{ github.event.action }}
+                ${{ github.event.action }} ${{ github.event_name }}
                 https://github.com/${{ github.repository }}/pull/${{ github.ref_name }}
                 Target platfrom WebGL
                 The workflow runs at
                 https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}
 
-#  checkLicense:
-#    name: Check for the Unity license ☑️
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Fail - No license ☠️
-#        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
-#        run: exit 1
-#
-#  testRunner:
-#    needs: checkLicense
-#    name: Test all modes 📝
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
-#      - name: Create LFS file list
-#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
-#
-#      - name: Restore LFS cache
-#        uses: actions/cache@v2
-#        id: lfs-cache
-#        with:
-#          path: .git/lfs
-#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
-#
-#      - name: Git LFS Pull
-#        run: |
-#          git lfs pull
-#          git add .
-#          git reset --hard
-#
-#      - name: Restore Library cache
-#        uses: actions/cache@v2
-#        with:
-#          path: Library
-#          key: Library-test-project
-#          restore-keys: |
-#            Library-test-project-
-#            Library-
-#
-#      - uses: webbertakken/unity-test-runner@v2
-#        id: testRunner
-#        with:
-#          testMode: all
-#
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: Test results (all modes)
-#          path: ${{ steps.testRunner.outputs.artifactsPath }}
-#
+  checkLicense:
+    name: Check for the Unity license ☑️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail - No license ☠️
+        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
+        run: exit 1
+
+  testRunner:
+    needs: checkLicense
+    name: Test all modes 📝
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+
+      - name: Restore Library cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-test-project
+          restore-keys: |
+            Library-test-project-
+            Library-
+
+      - uses: webbertakken/unity-test-runner@v2
+        id: testRunner
+        with:
+          testMode: all
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Test results (all modes)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
+
+  TestMessage: 
+    needs: testRunner
+    name: Test Success Message
+    runs-on: ubuntu-latest
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          with:
+            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            color: "#00FF00"
+            args: | 
+                ${{ github.event_name }} passed all tests
+                https://github.com/${{ github.repository }}/pull/${{ github.ref_name }}
+                Target platfrom WebGL
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+
+  TestErrorMessage:
+    runs-on: ubuntu-latest
+    needs: testRunner
+    name: Test Error Message
+    if: always() && needs.testRunner.result == 'failure'
+    steps:
+     - name: send custom message with args
+       uses: appleboy/discord-action@master
+       with:
+            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            color: "#FF0000"
+            args: | 
+                ${{ github.event_name }} failed one or more tests
+                https://github.com/${{ github.repository }}/pull/${{ github.ref_name }}
+                The Process is terminated
+                Target platfrom WebGL
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+
+################
+#     TODO     #
+#  Code Review #
+################
+
 #  buildWebGL:
 #    needs: testRunner
 #    name: Build for WebGL 🖥️
@@ -120,110 +163,38 @@ jobs:
 #          name: build-WebGL
 #          path: build/WebGL
 #
-#  buildWindows:
-#    needs: testRunner
-#    name: Build for Windows 🖥️
-#    runs-on: ubuntu-latest
-#    strategy:
-#      fail-fast: false
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
-#      - name: Create LFS file list
-#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
-#
-#      - name: Restore LFS cache
-#        uses: actions/cache@v2
-#        id: lfs-cache
-#        with:
-#          path: .git/lfs
-#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
-#
-#      - name: Git LFS Pull
-#        run: |
-#          git lfs pull
-#          git add .
-#          git reset --hard
-#
-#      - name: Restore Library cache
-#        uses: actions/cache@v2
-#        with:
-#          path: Library
-#          key: Library-build-StandaloneWindows64
-#          restore-keys: |
-#            Library-build-
-#            Library-
-#
-#      - uses: webbertakken/unity-builder@v2
-#        with:
-#          targetPlatform: StandaloneWindows64
-#
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: build-StandaloneWindows64
-#          path: build/StandaloneWindows64
-#
-#  buildAndroid:
-#    needs: testRunner
-#    name: Build for Android 📱
-#    runs-on: ubuntu-latest
-#    strategy:
-#      fail-fast: false
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
-#      - name: Create LFS file list
-#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
-#
-#      - name: Restore LFS cache
-#        uses: actions/cache@v2
-#        id: lfs-cache
-#        with:
-#          path: .git/lfs
-#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
-#
-#      - name: Git LFS Pull
-#        run: |
-#          git lfs pull
-#          git add .
-#          git reset --hard
-#
-#      - name: Restore Library cache
-#        uses: actions/cache@v2
-#        with:
-#          path: Library
-#          key: Library-build-Android
-#          restore-keys: |
-#            Library-build-
-#            Library-
-#
-#      - uses: webbertakken/unity-builder@v2
-#        with:
-#          targetPlatform: Android
-#
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: build-Android
-#          path: build/Android
-#
-#
-#  deployPages:
+#  BuildMessage: 
 #    needs: buildWebGL
-#    name: Deploy to Github Pages 🚀
+#    name: Build Success Message
 #    runs-on: ubuntu-latest
 #    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
+#        - name: send custom message with args
+#          uses: appleboy/discord-action@master
+#          with:
+#            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+#            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+#            color: "#00FF00"
+#            args: | 
+#                ${{ github.event_name }} Build Completed
+#                Target platfrom WebGL
+#                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
 #
-#      - uses: actions/download-artifact@v2
-#        with:
-#          name: build-WebGL
-#          path: build
-#
-#      - name: Deploy 🚀
-#        uses: JamesIves/github-pages-deploy-action@4.1.4
-#        with:
-#          branch: gh-pages
-#          folder: build/WebGL
+#  BuildErrorMessage:
+#    runs-on: ubuntu-latest
+#    needs: buildWebGL
+#    name: Build Error Message
+#    if: always() && needs.buildWebGL.result == 'failure'
+#    steps:
+#     - name: send custom message with args
+#       uses: appleboy/discord-action@master
+#       with:
+#            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+#            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+#            color: "#FF0000"
+#            args: | 
+#                ${{ github.event_name }} failed while building
+#                https://github.com/${{ github.repository }}/pull/${{ github.ref_name }}
+#                The Process is terminated
+#                Target platfrom WebGL
+#                The workflow runs at
+#                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
