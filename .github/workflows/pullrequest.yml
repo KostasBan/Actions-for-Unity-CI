@@ -9,6 +9,7 @@ env:
 
 jobs:
   cancelPreviousRuns:
+    name: Cancel Previous Runs
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
