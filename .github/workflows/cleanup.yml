@@ -1,8 +1,9 @@
 name: Cleanup (cron)
-on:
-  schedule:
-  - cron: '0 * * * *' # every hour
+#on:
+#  schedule:
+#  - cron: '0 * * * *' # every hour
 #    - cron: '30 10 * * SUN' # every sunday at 10:30
+on: workflow_dispatch
 
 jobs:
   deleteArtifacts:
