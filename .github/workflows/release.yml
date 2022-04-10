@@ -230,7 +230,7 @@ jobs:
 
   deployErrorMessage:
     runs-on: ubuntu-latest
-    needs: testRunner
+    needs: deployPages
     name: Deploy Error Message
     if: always() && needs.testRunner.result == 'failure'
     steps:
