@@ -1,4 +1,4 @@
-name: CleanUp (cron)
+name: CleanUp (cron) 🧹
 on:
   schedule:
     - cron: '30 10 * * SUN' # every sunday at 10:30
