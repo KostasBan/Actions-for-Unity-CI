@@ -1,0 +1,48 @@
+﻿name: Reusable workflow for success or error messages of other jobs
+
+on:
+  workflow_call:
+    inputs:
+      message:
+        required: true
+        type: string
+      messageFailed:
+        required: false
+        type: string
+      hasFailed:
+        required: false
+        type: boolean
+    secrets:
+      token:
+        required: true
+      webhook:
+        required: true
+
+jobs:
+  sendMessage: 
+    name: Discord 💬
+    runs-on: ubuntu-latest
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          if:  ${{ !inputs.hasFailed }}
+          with:
+            webhook_id: ${{ secrets.webhook }}
+            webhook_token: ${{ secrets.token }}
+            color: "#00FF00"
+            args: | 
+                ${{ inputs.message }}
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+
+        - name: send error message with args
+          uses: appleboy/discord-action@master
+          if:  ${{ inputs.hasFailed }}
+          with:
+            webhook_id: ${{ secrets.webhook }}
+            webhook_token: ${{ secrets.token }}
+            color: "#FF0000"
+            args: | 
+                ${{ inputs.messageFailed }}
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.       
