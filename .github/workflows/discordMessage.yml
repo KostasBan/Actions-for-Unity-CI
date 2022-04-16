@@ -20,7 +20,7 @@ on:
 
 jobs:
   sendMessage: 
-    name: Discord Message 💬
+    name: Discord 💬
     runs-on: ubuntu-latest
     steps:
         - name: send custom message with args
