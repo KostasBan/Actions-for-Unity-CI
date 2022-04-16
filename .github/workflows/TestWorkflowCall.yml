@@ -1,6 +1,9 @@
-name: TestWorkflow
+﻿name: TestWorkflow
 
 on: [push, pull_request]
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
   sendMessage: 
@@ -14,17 +17,17 @@ jobs:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
 
-#    name: Discord Message
-#    runs-on: ubuntu-latest
-#    steps:
-#        - name: send custom message with args
-#          uses: appleboy/discord-action@master
-#          with:
-#            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-#            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-#            color: "#00FF00"
-#            args: | 
-#                Build workflow has been queued 
-#                Target platfrom WebGL
-#                The workflow runs at
-#                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+  checkLicense:
+    name: Check for the Unity license ☑️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail - No license ☠️
+        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
+        run: exit 1
+
+  testRunner: 
+   needs: checkLicense
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/TestRunnerWorkflow.yml@kostasban/sc-47/reusable-workflows
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
