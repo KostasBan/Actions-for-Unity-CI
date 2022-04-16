@@ -64,13 +64,14 @@ jobs:
 
   testMessage: 
    name: Test Message
+   needs: testRunner
    uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@kostasban/sc-47/reusable-workflows
    if: always()
    with:
       message: |
             Build workflow passed all tests
             Target platfrom WebGL
-      hasFailed: needs.testRunner.result
+      hasFailed:  needs.testRunner.result
       messageFailed: |
              Build workflow Failed one or more tests
              The Process is terminated
