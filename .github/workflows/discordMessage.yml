@@ -6,6 +6,9 @@ on:
       message:
         required: true
         type: string
+      color:
+        required: false
+        type: string
     secrets:
       token:
         required: true
@@ -22,6 +25,7 @@ jobs:
           with:
             webhook_id: ${{ secrets.webhook }}
             webhook_token: ${{ secrets.token }}
+            color: ${{ inputs.color }}
             args: | 
                 ${{ inputs.message }}
                 The workflow runs at
