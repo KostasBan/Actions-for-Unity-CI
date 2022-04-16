@@ -26,8 +26,8 @@ jobs:
     name: Discord Message
     runs-on: ubuntu-latest
     steps:
-        - uses: appleboy/discord-action@master
         - name: send custom message with args
+          uses: appleboy/discord-action@master
           if:  ${{ !inputs.hasFailed }}
           with:
             webhook_id: ${{ secrets.webhook }}
@@ -37,8 +37,9 @@ jobs:
                 ${{ inputs.message }}
                 The workflow runs at
                 https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+
         - name: send error message with args
-        - uses: appleboy/discord-action@master
+          uses: appleboy/discord-action@master
           if:  ${{ inputs.hasFailed }}
           with:
             webhook_id: ${{ secrets.webhook }}
