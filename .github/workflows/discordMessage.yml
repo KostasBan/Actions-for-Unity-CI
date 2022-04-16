@@ -1,0 +1,28 @@
+name: Reusable workflow example
+
+on:
+  workflow_call:
+    inputs:
+      message:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+      webhook:
+        required: true
+
+jobs:
+  sendMessage: 
+    name: Discord Message
+    runs-on: ubuntu-latest
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          with:
+            webhook_id: ${{ secrets.webhook }}
+            webhook_token: ${{ secrets.token }}
+            args: | 
+                ${{ inputs.message }}
+                The workflow runs at
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
