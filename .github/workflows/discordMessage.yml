@@ -38,6 +38,7 @@ jobs:
                 The workflow runs at
                 https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
         - name: send error message with args
+        - uses: appleboy/discord-action@master
           if:  ${{ inputs.hasFailed }}
           with:
             webhook_id: ${{ secrets.webhook }}

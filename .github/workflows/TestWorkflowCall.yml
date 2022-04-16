@@ -13,7 +13,6 @@ jobs:
       message: |
             Hello!
             This is a two line Message.
-      color: "#00FF00"
    secrets:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
