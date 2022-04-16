@@ -13,6 +13,9 @@ jobs:
       message: |
             Hello!
             This is a two line Message.
+      hasFailed: true
+      messageFailed: |
+            Fail Message!
    secrets:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
