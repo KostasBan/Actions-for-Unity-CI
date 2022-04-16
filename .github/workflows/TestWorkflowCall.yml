@@ -8,7 +8,7 @@ env:
 jobs:
   sendMessage: 
    name: Initial Message
-   uses: ${{ github.repository }}/.github/workflows/discordMessage.yml@kostasban/sc-47/reusable-workflows
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@kostasban/sc-47/reusable-workflows
    with:
       message: |
             Hello!
