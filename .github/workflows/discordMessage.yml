@@ -1,4 +1,4 @@
-name: Reusable workflow for success or error messages of other jobs
+﻿name: Reusable workflow for success or error messages of other jobs
 
 on:
   workflow_call:
@@ -20,7 +20,7 @@ on:
 
 jobs:
   sendMessage: 
-    name: Discord Message
+    name: Discord Message 💬
     runs-on: ubuntu-latest
     steps:
         - name: send custom message with args
