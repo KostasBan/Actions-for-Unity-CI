@@ -76,42 +76,24 @@ jobs:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
 
-  TestMessage: 
-    needs: testRunner
-    name: Test Success Message
-    runs-on: ubuntu-latest
-    steps:
-        - name: send custom message with args
-          uses: appleboy/discord-action@master
-          with:
-            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-            color: "#00FF00"
-            args: | 
-                Build workflow passed all tests
-                Target platfrom WebGL
-                The workflow runs at
-                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+  testMessage: 
+   name: Test Message
+   needs: testRunner
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   if: always()
+   with:
+      message: |
+            Build workflow passed all tests
+            Target platfrom WebGL
+      hasFailed:  ${{ needs.testRunner.result == 'failure' }}
+      messageFailed: |
+             Build workflow Failed one or more tests
+             The Process is terminated
+             Target platfrom WebGL
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
 
-  TestErrorMessage:
-    runs-on: ubuntu-latest
-    needs: testRunner
-    name: Test Error Message
-    if: always() && needs.testRunner.result == 'failure'
-    steps:
-     - name: send custom message with args
-       uses: appleboy/discord-action@master
-       with:
-            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-            color: "#FF0000"
-            args: | 
-                Build workflow Failed one or more tests
-                The Process is terminated
-                Target platfrom WebGL
-                The workflow runs at
-                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
-  
   buildWebGL:
     needs: testRunner
     name: Build for WebGL 🖥️
@@ -157,43 +139,25 @@ jobs:
         with:
           name: build-WebGL
           path: build/WebGL
-
-  BuildMessage: 
-    needs: buildWebGL
-    name: Build Success Message
-    runs-on: ubuntu-latest
-    steps:
-        - name: send custom message with args
-          uses: appleboy/discord-action@master
-          with:
-            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-            color: "#00FF00"
-            args: | 
-                Build workflow Completed
-                Target platfrom WebGL
-                The workflow runs at
-                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
-
-  BuildErrorMessage:
-    runs-on: ubuntu-latest
-    needs: buildWebGL
-    name: Build Error Message
-    if: always() && needs.buildWebGL.result == 'failure'
-    steps:
-     - name: send custom message with args
-       uses: appleboy/discord-action@master
-       with:
-            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-            color: "#FF0000"
-            args: | 
-                Build workflow Failed while building
-                The Process is terminated
-                Target platfrom WebGL
-                The workflow runs at
-                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
-
+  
+  buildMessage: 
+   name: Build Message
+   needs: buildWebGL
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   if: always()
+   with:
+      message: |
+            Build workflow Completed
+            Target platfrom WebGL
+      hasFailed:  ${{ needs.buildWebGL.result == 'failure' }}
+      messageFailed: |
+             Build workflow Failed while building
+             The Process is terminated
+             Target platfrom WebGL
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
+ 
   deployPages:
     needs: buildWebGL
     name: Deploy to Github Pages 🚀
@@ -214,35 +178,19 @@ jobs:
           folder: build/WebGL
 
   deployMessage: 
-    needs: deployPages
-    name: Deploy Success Message
-    runs-on: ubuntu-latest
-    steps:
-        - name: send custom message with args
-          uses: appleboy/discord-action@master
-          with:
-            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-            color: "#00FF00"
-            args: | 
-                Build successfully deployed at
-                https://kostasban.github.io/Actions-for-Unity-CI/
-
-  deployErrorMessage:
-    runs-on: ubuntu-latest
-    needs: deployPages
-    name: Deploy Error Message
-    if: always() && needs.testRunner.result == 'failure'
-    steps:
-     - name: send custom message with args
-       uses: appleboy/discord-action@master
-       with:
-            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-            color: "#FF0000"
-            args: | 
+   name: Deploy Message
+   needs: deployPages
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   if: always()
+   with:
+      message: |
+             Build successfully deployed at
+             https://kostasban.github.io/Actions-for-Unity-CI/
+      hasFailed:  ${{ needs.deployPages.result == 'failure' }}
+      messageFailed: |
                 Build workflow Failed while trying to deploy the build
                 The Process is terminated
                 Target platfrom WebGL
-                The workflow runs at
-                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}.
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
