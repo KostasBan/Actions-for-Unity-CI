@@ -1,13 +1,10 @@
-name: Reusable workflow example
+name: Reusable workflow for success or error messages of other jobs
 
 on:
   workflow_call:
     inputs:
       message:
         required: true
-        type: string
-      color:
-        required: false
         type: string
       messageFailed:
         required: false
