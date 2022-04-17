@@ -8,7 +8,7 @@ on:
         type: string
       hashFiles:
         required: true
-        type: boolean
+        type: string
 #      messageFailed:
 #        required: false
 #        type: string
@@ -28,6 +28,9 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - name: test
+        run: echo ${{ inputs.hashFiles }}
+
       - name: Checkout code
         uses: actions/checkout@v2
 
