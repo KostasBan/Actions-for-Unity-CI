@@ -16,8 +16,6 @@ jobs:
   buildWindows:
     name: Build
     uses: KostasBan/Actions-for-Unity-CI/.github/workflows/windowsBuild.yml@kostasban/sc-49/more-reusable-workflows
-    with:
-        runnerOS: ${{ runner.os }}
 
   buildMessage: 
    name: Build Message
