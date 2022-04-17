@@ -6,9 +6,6 @@ on:
       runnerOS:
         required: true
         type: string
-      hashFiles:
-        required: true
-        type: string
 #      messageFailed:
 #        required: false
 #        type: string
@@ -28,9 +25,6 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - name: test
-        run: echo ${{ inputs.hashFiles }}
-
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -42,7 +36,7 @@ jobs:
         id: lfs-cache
         with:
           path: .git/lfs
-          key: ${{ inputs.runnerOS }}-lfs-${{ inputs.hashFiles }}
+          key: ${{ inputs.runnerOS }}-lfs- ${{ hashFiles('.lfs-assets-id') }}
 
       - name: Git LFS Pull
         run: |

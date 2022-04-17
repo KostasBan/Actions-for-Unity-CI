@@ -18,7 +18,6 @@ jobs:
     uses: KostasBan/Actions-for-Unity-CI/.github/workflows/windowsBuild.yml@kostasban/sc-49/more-reusable-workflows
     with:
         runnerOS: ${{ runner.os }}
-        hashFiles: ${{ hashFiles('.lfs-assets-id') }}
 
   buildMessage: 
    name: Build Message
