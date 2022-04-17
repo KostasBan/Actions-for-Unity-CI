@@ -16,6 +16,25 @@ jobs:
   buildWindows:
     name: Build
     uses: KostasBan/Actions-for-Unity-CI/.github/workflows/windowsBuild.yml@kostasban/sc-49/more-reusable-workflows
+    with:
+        runnerOS: ${{ runner.os }}
+        hashFiles: ${{ hashFiles('.lfs-assets-id') }}
+
+  buildMessage: 
+   name: Build Message
+   needs: buildWindows
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   if: always()
+   with:
+      message: |
+            Build workflow Completed
+      hasFailed:  ${{ needs.buildWindows.result == 'failure' }}
+      messageFailed: |
+             Build workflow Failed
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
+
 #  testRunner:
 #    name: Test all modes 📝
 #    runs-on: ubuntu-latest
