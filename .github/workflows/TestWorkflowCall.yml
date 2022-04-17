@@ -16,6 +16,8 @@ jobs:
   buildWindows:
     name: Build
     uses: KostasBan/Actions-for-Unity-CI/.github/workflows/windowsBuild.yml@kostasban/sc-49/more-reusable-workflows
+    secrets: 
+        UNITY_LICENSE: env.UNITY_LICENSE
 
   buildMessage: 
    name: Build Message
