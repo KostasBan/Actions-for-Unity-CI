@@ -2,36 +2,15 @@
 
 on:
   workflow_call:
-#    inputs:
-#      runnerOS:
-#        required: true
-#        type: string
-#      messageFailed:
-#        required: false
-#        type: string
-#      hasFailed:
-#        required: false
-#        type: boolean
     secrets:
       UNITY_LICENSE:
         required: true
-#      webhook:
-#        required: true
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  checkLicense:
-    name: Check for the Unity license ☑️
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fail - No license ☠️
-        if: ${{ !startsWith( ${{ secrets.UNITY_LICENSE }} , '<') }}
-        run: exit 1
-
   buildWindows:
-    needs: checkLicense
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
     strategy:
