@@ -213,3 +213,14 @@ jobs:
    secrets:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
+
+  echoJob:
+    name: echoTest
+    needs: buildWebGL
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: just echo a message
+      run: |
+        echo Hello there!
+        ${{ needs.buildWebGL.result }}
