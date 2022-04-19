@@ -143,13 +143,16 @@ jobs:
             Library-build-
             Library-
 
-      - uses: webbertakken/unity-builder@v2
+      - uses: game-ci/unity-builder@v2
         with:
+          buildMethod: UnityBuilderAction.BuildScript.Build
+          customParameters: -environment b5641e45-66d8-4417-b5e2-28a127d57a88
           targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
 
       - uses: actions/upload-artifact@v2
         with:
-          name: build-StandaloneWindows64
+          name: development-build-StandaloneWindows64
           path: build/StandaloneWindows64
 
   buildWebGL:
