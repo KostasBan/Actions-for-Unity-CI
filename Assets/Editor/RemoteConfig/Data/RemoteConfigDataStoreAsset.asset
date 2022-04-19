@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: '[]'
-  _rsLastCachedKeyList: '[]'
-  _environments: '[]'
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"6ed27080-8762-43c4-81f2-a19f49f08c4d\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"Environment\",\r\n      \"type\": \"string\",\r\n     
+    \"value\": \"production\"\r\n    }\r\n  }\r\n]"
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"6ed27080-8762-43c4-81f2-a19f49f08c4d\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"Environment\",\r\n      \"type\": \"string\",\r\n     
+    \"value\": \"production\"\r\n    }\r\n  }\r\n]"
+  _environments: "[\r\n  {\r\n    \"projectId\": \"b94953d2-eb1a-4c0e-9a97-f1dbf7defa89\",\r\n   
+    \"name\": \"production\",\r\n    \"id\": \"b5641e45-66d8-4417-b5e2-28a127d57a88\",\r\n   
+    \"isDefault\": true,\r\n    \"createdAt\": \"2022-04-19T19:34:45Z\",\r\n    \"updatedAt\":
+    \"2022-04-19T19:34:45Z\"\r\n  },\r\n  {\r\n    \"projectId\": \"b94953d2-eb1a-4c0e-9a97-f1dbf7defa89\",\r\n   
+    \"name\": \"staging\",\r\n    \"id\": \"fff24100-23db-477c-b75b-d064bae67f27\",\r\n   
+    \"isDefault\": false,\r\n    \"createdAt\": \"2022-04-19T19:35:43Z\",\r\n   
+    \"updatedAt\": \"2022-04-19T19:35:43Z\"\r\n  },\r\n  {\r\n    \"projectId\":
+    \"b94953d2-eb1a-4c0e-9a97-f1dbf7defa89\",\r\n    \"name\": \"development\",\r\n   
+    \"id\": \"c21d160b-7d7a-484f-9702-37d801b06ffa\",\r\n    \"isDefault\": false,\r\n   
+    \"createdAt\": \"2022-04-19T19:35:53Z\",\r\n    \"updatedAt\": \"2022-04-19T19:35:53Z\"\r\n 
+    }\r\n]"
