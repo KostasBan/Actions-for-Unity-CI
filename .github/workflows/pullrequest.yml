@@ -88,7 +88,7 @@ jobs:
   testMessage: 
    name: Test Message
    needs: testRunner
-   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@kostasban/sc-50/release-candidate-pipeline
    if: always() &&  !(needs.testRunner.result == 'skipped' || needs.testRunner.result == 'cancelled')
    with:
       message: |
@@ -199,7 +199,7 @@ jobs:
   buildMessage: 
    name: Build Message
    needs: buildWebGL
-   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@kostasban/sc-50/release-candidate-pipeline
    if: always()
    with:
       message: |
