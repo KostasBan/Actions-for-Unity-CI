@@ -21,7 +21,7 @@ jobs:
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
 
   cancelPreviousRuns:
-    name: Cancel Previous Runs
+    name: Cancel Previous Runs 🛑
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -140,7 +140,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: ReleaseCanditate-StandaloneWindows64
-          path: build/ReleaseCanditate/StandaloneWindows64
+          path: build/StandaloneWindows64
 
   buildMessage: 
    name: Build Message
