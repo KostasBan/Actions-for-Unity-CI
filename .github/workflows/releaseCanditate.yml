@@ -1,0 +1,161 @@
+﻿name: Release Canditate Workflow 🧪
+
+on: 
+  push:
+    branches:
+      - 'RC/**' 
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  sendMessage: 
+   name: Initial Message
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   with:
+     message: |
+              New Release Canditate
+              ${{github.ref}}
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
+
+  cancelPreviousRuns:
+    name: Cancel Previous Runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+  checkLicense:
+    name: Check for the Unity license ☑️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail - No license ☠️
+        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
+        run: exit 1
+
+  testRunner:
+    needs: checkLicense
+    name: Test all modes 📝
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+
+      - name: Restore Library cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-test-project
+          restore-keys: |
+            Library-test-project-
+            Library-
+
+      - uses: webbertakken/unity-test-runner@v2
+        id: testRunner
+        with:
+          testMode: all
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Test results (all modes)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
+
+  testMessage: 
+   name: Test Message
+   needs: testRunner
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   if: always()
+   with:
+      message: |
+            Build workflow passed all tests
+            Target platfrom Windows
+      hasFailed:  ${{ needs.testRunner.result == 'failure' }}
+      messageFailed: |
+             Build workflow Failed one or more tests
+             The Process is terminated
+             Target platfrom Windows
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
+
+  buildWindows:
+    needs: testRunner
+    name: Build for Windows 🖥️
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+
+      - name: Restore Library cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-build-StandaloneWindows64
+          restore-keys: |
+            Library-build-
+            Library-
+
+      - uses: webbertakken/unity-builder@v2
+        with:
+          targetPlatform: StandaloneWindows64
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ReleaseCanditate-StandaloneWindows64
+          path: build/ReleaseCanditate/StandaloneWindows64
+
+  buildMessage: 
+   name: Build Message
+   needs: buildWindows
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   if: always()
+   with:
+      message: |
+            Build workflow Completed
+            Target platfrom Windows
+      hasFailed:  ${{ needs.buildWebGL.result == 'failure' }}
+      messageFailed: |
+             Build workflow Failed while building
+             The Process is terminated
+             Target platfrom Windows
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
