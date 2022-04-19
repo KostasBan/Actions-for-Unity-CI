@@ -94,7 +94,7 @@ jobs:
       message: |
             Build workflow passed all tests
             Target platfrom WebGL
-      hasFailed:  ${{ needs.testRunner.result == 'failure' }}
+      jobResult:  ${{ needs.testRunner.result == 'failure' }}
       messageFailed: |
              Build workflow Failed one or more tests
              The Process is terminated
@@ -200,12 +200,12 @@ jobs:
    name: Build Message
    needs: buildWebGL
    uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
-   if: always() &&  !(needs.buildWebGL.result == 'skipped' || needs.buildWebGL.result == 'cancelled' )
+   if: always()
    with:
       message: |
             Build workflow Completed
             Target platfrom WebGL
-      hasFailed:  ${{ needs.buildWebGL.result == 'failure' }}
+      jobResult:  ${{ needs.buildWebGL.result }}
       messageFailed: |
              Build workflow Failed while building
              The Process is terminated
