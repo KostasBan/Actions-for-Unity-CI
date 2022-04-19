@@ -135,7 +135,10 @@ jobs:
 
       - uses: webbertakken/unity-builder@v2
         with:
+          buildMethod: UnityBuilderAction.BuildScript.Build
+          customParameters: -environment ${{ secrets.STAGING_ENVIRONMENT }}
           targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
 
       - uses: actions/upload-artifact@v2
         with:
