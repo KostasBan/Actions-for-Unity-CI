@@ -222,5 +222,15 @@ jobs:
     steps:
     - name: just echo a message
       run: |
-        echo Hello there!
-        ${{ needs.buildWebGL.result }}
+        echo Hello there! ${{ needs.buildWebGL.result }}
+
+  echoJob2:
+    name: echoTest2
+    needs: sendInitialMessage
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: just echo a message
+      run: |
+        echo Hello there! ${{ needs.sendInitialMessage.result }}
+        
