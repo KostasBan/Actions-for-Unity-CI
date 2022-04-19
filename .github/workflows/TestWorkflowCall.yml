@@ -1,0 +1,14 @@
+name: TestWorkflow
+
+on: [push, pull_request]
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  sendMessage: 
+   name: Initial Message
+   uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
+   secrets:
+      token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+      webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
