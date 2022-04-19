@@ -95,18 +95,12 @@ namespace UnityBuilderAction
             }
 
             string environment = "b5641e45-66d8-4417-b5e2-28a127d57a88"; //production id
-            string remoteEnvironment;
             Console.WriteLine($"setting environment");
-            if (validatedOptions.TryGetValue("environemnt", out remoteEnvironment))
+            if (validatedOptions.TryGetValue("environment", out string remoteEnvironment) && !string.IsNullOrEmpty(remoteEnvironment))
             {
-                Console.WriteLine($"remote environment exists");
-                if (!string.IsNullOrEmpty(remoteEnvironment))
-                {
                     Console.WriteLine($"Environment is not production");
                     environment = remoteEnvironment;
-                }
             }
-                
 
             TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));
             EnvironmentId environmentId = new EnvironmentId() { id = environment };
