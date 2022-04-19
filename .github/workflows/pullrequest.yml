@@ -94,7 +94,7 @@ jobs:
       message: |
             Build workflow passed all tests
             Target platfrom WebGL
-      hasFailed:  ${{ needs.testRunner.result == 'failure' }}
+      jobResult:  ${{ needs.testRunner.result }}
       messageFailed: |
              Build workflow Failed one or more tests
              The Process is terminated
@@ -205,7 +205,7 @@ jobs:
       message: |
             Build workflow Completed
             Target platfrom WebGL
-      hasFailed:  ${{ needs.buildWebGL.result == 'failure' }}
+      jobResult:  ${{ needs.buildWebGL.result }}
       messageFailed: |
              Build workflow Failed while building
              The Process is terminated
@@ -213,3 +213,4 @@ jobs:
    secrets:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
+      

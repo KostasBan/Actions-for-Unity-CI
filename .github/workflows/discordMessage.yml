@@ -9,9 +9,9 @@ on:
       messageFailed:
         required: false
         type: string
-      hasFailed:
+      jobResult:
         required: false
-        type: boolean
+        type: string
     secrets:
       token:
         required: true
@@ -25,7 +25,7 @@ jobs:
     steps:
         - name: send custom message with args
           uses: appleboy/discord-action@master
-          if:  ${{ !inputs.hasFailed }}
+          if:  ${{ inputs.jobResult == 'success' || inputs.jobResult == ''}}
           with:
             webhook_id: ${{ secrets.webhook }}
             webhook_token: ${{ secrets.token }}
@@ -37,7 +37,7 @@ jobs:
 
         - name: send error message with args
           uses: appleboy/discord-action@master
-          if:  ${{ inputs.hasFailed }}
+          if:  ${{ inputs.jobResult == 'failure' }}
           with:
             webhook_id: ${{ secrets.webhook }}
             webhook_token: ${{ secrets.token }}
