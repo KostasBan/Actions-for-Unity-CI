@@ -89,7 +89,7 @@ jobs:
    name: Test Message
    needs: testRunner
    uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
-   if: always() &&  !(needs.buildWebGL.result == 'skipped')
+   if: always() &&  !(needs.testRunner.result == 'skipped')
    with:
       message: |
             Build workflow passed all tests
@@ -233,4 +233,14 @@ jobs:
     - name: just echo a message
       run: |
         echo Hello there! ${{ needs.sendInitialMessage.result }}
+
+  echoJob3:
+    name: echoTest3
+    needs: testRunner
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: just echo a message
+      run: |
+        echo Hello there! ${{ needs.testRunner.result }}
         
