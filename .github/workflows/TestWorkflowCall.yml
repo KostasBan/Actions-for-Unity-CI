@@ -9,6 +9,8 @@ jobs:
   sendMessage: 
    name: Initial Message
    uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@kostasban/sc-50/release-candidate-pipeline
+   with:
+      message: ${{github.ref}}
    secrets:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
