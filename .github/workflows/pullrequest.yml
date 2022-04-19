@@ -89,7 +89,7 @@ jobs:
    name: Test Message
    needs: testRunner
    uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
-   if: always()
+   if: always() &&  !(needs.buildWebGL.result == 'cancelled')
    with:
       message: |
             Build workflow passed all tests
@@ -200,7 +200,7 @@ jobs:
    name: Build Message
    needs: buildWebGL
    uses: KostasBan/Actions-for-Unity-CI/.github/workflows/discordMessage.yml@development
-   if: always()
+   if: always() &&  !(needs.buildWebGL.result == 'cancelled')
    with:
       message: |
             Build workflow Completed
