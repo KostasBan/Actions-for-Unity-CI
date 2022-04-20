@@ -94,20 +94,20 @@ namespace UnityBuilderAction
                 validatedOptions.Add("customBuildName", defaultCustomBuildName);
             }
 
-            string environment = "b5641e45-66d8-4417-b5e2-28a127d57a88"; //production id
+            EnvironmentId environmentId = new EnvironmentId();
+            
             Console.WriteLine($"setting environment");
             if (validatedOptions.TryGetValue("environment", out string remoteEnvironment) && !string.IsNullOrEmpty(remoteEnvironment))
             {
-                    Console.WriteLine($"Environment is not production");
-                    environment = remoteEnvironment;
+                Console.WriteLine($"Environment is not production");
+                environmentId.id = remoteEnvironment;
             }
 
-            TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));
-            EnvironmentId environmentId = new EnvironmentId() { id = environment };
+            TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));            
             File.WriteAllText(AssetDatabase.GetAssetPath(text), environmentId.ToJson());
             EditorUtility.SetDirty(text);
 
-
+            Console.WriteLine($"{text.text}");
 
             return validatedOptions;
         }
