@@ -98,7 +98,7 @@ jobs:
       messageFailed: |
              Build workflow Failed one or more tests
              The Process is terminated
-             Target platfrom WebGL
+             Target platfrom Windows
    secrets:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
@@ -109,7 +109,7 @@ jobs:
 ################
 
   buildWindows:
-#    needs: testRunner
+    needs: testRunner
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
     strategy:
@@ -145,7 +145,10 @@ jobs:
 
       - uses: game-ci/unity-builder@v2
         with:
+          buildMethod: UnityBuilderAction.BuildScript.Build
+          customParameters: -environment ${{ secrets.DEVELOPMENT_ENVIRONMENT }}
           targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
 
       - uses: actions/upload-artifact@v2
         with:

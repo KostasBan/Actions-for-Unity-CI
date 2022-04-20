@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 public class RemoteConfigManager : MonoBehaviour
 {
     public TMP_Text _environmentVisualizer = null;
-    public TextAsset _textAsset = null;
     public struct userAttributes
     {
     }
@@ -23,6 +22,7 @@ public class RemoteConfigManager : MonoBehaviour
     {
         // Add a listener to apply settings when successfully retrieved:
         ConfigManager.FetchCompleted += ApplyRemoteSettings;
+
         TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));
         EnvironmentId environment = (EnvironmentId)JsonUtility.FromJson<EnvironmentId>(text.text);
 
@@ -45,10 +45,7 @@ public class RemoteConfigManager : MonoBehaviour
                 break;
             case ConfigOrigin.Remote:
                 Debug.Log("New settings loaded this session; update values accordingly.");
-                TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));
-                EnvironmentId environment = (EnvironmentId)JsonUtility.FromJson<EnvironmentId>(text.text);
-                _environmentVisualizer.text = environment.id;
-                _environmentVisualizer.text += ConfigManager.appConfig.GetString("Environment");
+                _environmentVisualizer.text = ConfigManager.appConfig.GetString("Environment");
                 break;
         }
     }

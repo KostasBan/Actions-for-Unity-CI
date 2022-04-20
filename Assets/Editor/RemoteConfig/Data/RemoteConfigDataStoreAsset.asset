@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"6f69d630-f94f-4989-94d8-9a3fbde50402\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"af1710ae-1a63-4af3-94cf-0ea2d766bb72\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"Environment\",\r\n      \"type\": \"string\",\r\n     
-    \"value\": \"production\"\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"6f69d630-f94f-4989-94d8-9a3fbde50402\"\r\n   
+    \"value\": \"development\"\r\n    }\r\n  }\r\n]"
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"af1710ae-1a63-4af3-94cf-0ea2d766bb72\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"Environment\",\r\n      \"type\": \"string\",\r\n     
-    \"value\": \"production\"\r\n    }\r\n  }\r\n]"
+    \"value\": \"development\"\r\n    }\r\n  }\r\n]"
   _environments: "[\r\n  {\r\n    \"projectId\": \"b94953d2-eb1a-4c0e-9a97-f1dbf7defa89\",\r\n   
     \"name\": \"development\",\r\n    \"id\": \"c21d160b-7d7a-484f-9702-37d801b06ffa\",\r\n   
     \"isDefault\": false,\r\n    \"createdAt\": \"2022-04-19T19:35:53Z\",\r\n   
