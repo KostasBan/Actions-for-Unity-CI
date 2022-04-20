@@ -109,7 +109,7 @@ jobs:
 ################
 
   buildWindows:
-    needs: testRunner
+#    needs: testRunner
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
     strategy:
@@ -146,7 +146,7 @@ jobs:
       - uses: game-ci/unity-builder@v2
         with:
           buildMethod: UnityBuilderAction.BuildScript.Build
-          customParameters: -environment ${{ secrets.DEVELOPMENT_ENVIRONMENT }}
+          customParameters: -environment ${{ secrets.STAGING_ENVIRONMENT }}
           targetPlatform: StandaloneWindows64
           allowDirtyBuild: true
 
