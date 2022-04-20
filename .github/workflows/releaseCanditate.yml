@@ -154,7 +154,7 @@ jobs:
       message: |
             Build workflow Completed
             Target platfrom Windows
-      jobResult:  ${{ needs.buildWebGL.result }}
+      jobResult:  ${{ needs.buildWindows.result }}
       messageFailed: |
              Build workflow Failed while building
              The Process is terminated
