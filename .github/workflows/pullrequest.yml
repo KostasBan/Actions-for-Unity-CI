@@ -145,10 +145,7 @@ jobs:
 
       - uses: game-ci/unity-builder@v2
         with:
-          buildMethod: UnityBuilderAction.BuildScript.Build
-          customParameters: -environment ${{ secrets.DEVELOPMENT_ENVIRONMENT }}
           targetPlatform: StandaloneWindows64
-          allowDirtyBuild: true
 
       - uses: actions/upload-artifact@v2
         with:
