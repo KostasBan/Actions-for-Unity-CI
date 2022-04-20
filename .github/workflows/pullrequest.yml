@@ -93,7 +93,7 @@ jobs:
    with:
       message: |
             Build workflow passed all tests
-            Target platfrom WebGL
+            Target platfrom Windows
       jobResult:  ${{ needs.testRunner.result }}
       messageFailed: |
              Build workflow Failed one or more tests
