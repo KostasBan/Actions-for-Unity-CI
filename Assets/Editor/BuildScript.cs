@@ -95,7 +95,7 @@ namespace UnityBuilderAction
             }
 
             EnvironmentId environmentId = new EnvironmentId();
-            
+
             Console.WriteLine($"setting environment");
             if (validatedOptions.TryGetValue("environment", out string remoteEnvironment) && !string.IsNullOrEmpty(remoteEnvironment))
             {
@@ -103,9 +103,13 @@ namespace UnityBuilderAction
                 environmentId.id = remoteEnvironment;
             }
 
-            TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));            
+            TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));
+            Console.WriteLine(text.text);
+
             File.WriteAllText(AssetDatabase.GetAssetPath(text), environmentId.ToJson());
             EditorUtility.SetDirty(text);
+
+            Console.WriteLine(text.text);
 
             return validatedOptions;
         }
