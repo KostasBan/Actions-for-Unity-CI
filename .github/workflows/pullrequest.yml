@@ -148,7 +148,7 @@ jobs:
           buildMethod: UnityBuilderAction.BuildScript.Build
           customParameters: -environment ${{ secrets.DEVELOPMENT_ENVIRONMENT }}
           targetPlatform: StandaloneWindows64
-          allowDirtyBuild: true
+         #allowDirtyBuild: true
 
       - uses: actions/upload-artifact@v2
         with:
