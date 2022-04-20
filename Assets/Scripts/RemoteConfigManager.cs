@@ -45,7 +45,9 @@ public class RemoteConfigManager : MonoBehaviour
                 break;
             case ConfigOrigin.Remote:
                 Debug.Log("New settings loaded this session; update values accordingly.");
-                _environmentVisualizer.text = ConfigManager.appConfig.GetString("Environment");
+                EnvironmentId environment = (EnvironmentId)JsonUtility.FromJson<EnvironmentId>(_textAsset.text);
+                _environmentVisualizer.text = environment.id;
+                //_environmentVisualizer.text = ConfigManager.appConfig.GetString("Environment");
                 break;
         }
     }

@@ -107,8 +107,6 @@ namespace UnityBuilderAction
             File.WriteAllText(AssetDatabase.GetAssetPath(text), environmentId.ToJson());
             EditorUtility.SetDirty(text);
 
-            Console.WriteLine($"{text.text}");
-
             return validatedOptions;
         }
 
