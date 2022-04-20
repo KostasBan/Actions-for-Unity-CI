@@ -21,7 +21,7 @@ jobs:
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
 
   cancelPreviousRuns:
-    name: Cancel Previous Runs
+    name: Cancel Previous Runs 🛑
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -135,12 +135,15 @@ jobs:
 
       - uses: webbertakken/unity-builder@v2
         with:
+          buildMethod: UnityBuilderAction.BuildScript.Build
+          customParameters: -environment ${{ secrets.STAGING_ENVIRONMENT }}
           targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
 
       - uses: actions/upload-artifact@v2
         with:
           name: ReleaseCanditate-StandaloneWindows64
-          path: build/ReleaseCanditate/StandaloneWindows64
+          path: build/StandaloneWindows64
 
   buildMessage: 
    name: Build Message
@@ -151,7 +154,7 @@ jobs:
       message: |
             Build workflow Completed
             Target platfrom Windows
-      jobResult:  ${{ needs.buildWebGL.result }}
+      jobResult:  ${{ needs.buildWindows.result }}
       messageFailed: |
              Build workflow Failed while building
              The Process is terminated

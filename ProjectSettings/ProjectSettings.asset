@@ -152,7 +152,10 @@ PlayerSettings:
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.DefaultCompany.ActionsforUnityCI
+    Standalone: com.DefaultCompany.Actions-for-Unity-CI
+    iPhone: com.DefaultCompany.Actions-for-Unity-CI
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -870,7 +873,14 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
     UNet: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -884,11 +894,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 
+  cloudProjectId: b94953d2-eb1a-4c0e-9a97-f1dbf7defa89
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Actions-for-Unity-CI
+  organizationId: kostas-ban
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
