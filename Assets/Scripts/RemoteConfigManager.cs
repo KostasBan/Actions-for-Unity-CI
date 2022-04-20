@@ -23,8 +23,8 @@ public class RemoteConfigManager : MonoBehaviour
     {
         // Add a listener to apply settings when successfully retrieved:
         ConfigManager.FetchCompleted += ApplyRemoteSettings;
-
-        EnvironmentId environment = (EnvironmentId)JsonUtility.FromJson<EnvironmentId>(_textAsset.text);
+        TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));
+        EnvironmentId environment = (EnvironmentId)JsonUtility.FromJson<EnvironmentId>(text.text);
 
         // Set the environment ID:
         ConfigManager.SetEnvironmentID(environment.id);
@@ -45,9 +45,10 @@ public class RemoteConfigManager : MonoBehaviour
                 break;
             case ConfigOrigin.Remote:
                 Debug.Log("New settings loaded this session; update values accordingly.");
-                EnvironmentId environment = (EnvironmentId)JsonUtility.FromJson<EnvironmentId>(_textAsset.text);
+                TextAsset text = (TextAsset)Resources.Load("environment", typeof(TextAsset));
+                EnvironmentId environment = (EnvironmentId)JsonUtility.FromJson<EnvironmentId>(text.text);
                 _environmentVisualizer.text = environment.id;
-                //_environmentVisualizer.text = ConfigManager.appConfig.GetString("Environment");
+                _environmentVisualizer.text += ConfigManager.appConfig.GetString("Environment");
                 break;
         }
     }
