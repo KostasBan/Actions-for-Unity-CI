@@ -177,6 +177,7 @@ jobs:
     name: Discord Cancel Message 💬
     needs: [testRunner , buildWindows]
     runs-on: ubuntu-latest
+    if: always()
     steps:
         - name: send custom message with args
           uses: appleboy/discord-action@master
