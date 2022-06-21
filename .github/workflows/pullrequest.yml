@@ -172,4 +172,21 @@ jobs:
    secrets:
       token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
       webhook: ${{ secrets.DISCORD_WEBHOOK_ID  }}
+
+  sendCancelMessage: 
+    name: Discord Cancel Message 💬
+    needs: [testRunner , buildWindows]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+        - name: send custom message with args
+          uses: appleboy/discord-action@master
+          if: ${{ cancelled() }}
+          with:
+            webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+            webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            color: "#FFFF00"
+            args: | 
+                Cancled workflow
+                https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}
       
